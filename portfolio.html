@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joshua Mendoza — Full-Stack Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #1a1a24;
+    --accent: #4f7cff;
+    --accent2: #7c3aed;
+    --accent-glow: rgba(79,124,255,0.15);
+    --text: #f0f0f8;
+    --text-mid: #9999bb;
+    --text-dim: #55556a;
+    --border: rgba(255,255,255,0.07);
+    --card: rgba(255,255,255,0.04);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* NOISE TEXTURE */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.2rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--text-mid);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 8rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 70% 40%, rgba(79,124,255,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(124,58,237,0.06) 0%, transparent 60%);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%);
+  }
+
+  .hero-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+    color: var(--accent);
+    margin-bottom: 2rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .badge-dot {
+    width: 6px; height: 6px;
+    background: #22c55e;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.3); }
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  .hero h1 .line2 {
+    display: block;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-desc {
+    font-size: 1.1rem;
+    color: var(--text-mid);
+    max-width: 520px;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--accent);
+    color: #fff;
+    padding: 0.8rem 1.8rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary:hover {
+    background: #3d6ae8;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 30px rgba(79,124,255,0.3);
+  }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: var(--text);
+    padding: 0.8rem 1.8rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+
+  .btn-outline:hover {
+    background: var(--card);
+    border-color: rgba(255,255,255,0.15);
+    transform: translateY(-1px);
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .stat-num span { color: var(--accent); }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-top: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 6rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+  }
+
+  .section-desc {
+    color: var(--text-mid);
+    max-width: 500px;
+    margin-bottom: 3rem;
+    font-weight: 300;
+  }
+
+  /* PROJECTS */
+  #projects { padding-top: 2rem; }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(79,124,255,0.05), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .project-card:hover {
+    border-color: rgba(79,124,255,0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+
+  .project-card:hover::before { opacity: 1; }
+
+  .project-card.featured {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .project-icon {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .project-tag {
+    display: inline-block;
+    background: rgba(79,124,255,0.1);
+    color: var(--accent);
+    border: 1px solid rgba(79,124,255,0.2);
+    border-radius: 100px;
+    padding: 0.2rem 0.75rem;
+    font-size: 0.72rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .project-tag.private {
+    background: rgba(124,58,237,0.1);
+    color: #a78bfa;
+    border-color: rgba(124,58,237,0.2);
+  }
+
+  .project-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+  }
+
+  .project-desc {
+    color: var(--text-mid);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+  }
+
+  .project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .tech-chip {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text-mid);
+    border-radius: 6px;
+    padding: 0.25rem 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .project-links {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: gap 0.2s;
+  }
+
+  .project-link:hover { gap: 0.6rem; }
+
+  .project-visual {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-visual::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(79,124,255,0.1), rgba(124,58,237,0.1));
+  }
+
+  /* 3 SUBAPPS */
+  .subapps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .subapp {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.9rem;
+  }
+
+  .subapp-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.3rem;
+  }
+
+  .subapp-desc {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  /* SKILLS */
+  #skills { background: var(--bg2); border-radius: 24px; max-width: 1100px; }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .skill-group {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .skill-group-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .skill-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .skill-item {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.82rem;
+    color: var(--text-mid);
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .skill-item:hover {
+    color: var(--text);
+    border-color: rgba(79,124,255,0.3);
+    background: rgba(79,124,255,0.08);
+  }
+
+  /* ACHIEVEMENTS */
+  .achievements-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .achievement-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    transition: all 0.3s;
+  }
+
+  .achievement-card:hover {
+    border-color: rgba(79,124,255,0.25);
+    transform: translateY(-2px);
+  }
+
+  .achievement-icon {
+    font-size: 2.5rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .achievement-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+    letter-spacing: -0.01em;
+  }
+
+  .achievement-sub {
+    font-size: 0.8rem;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+
+  .achievement-desc {
+    font-size: 0.85rem;
+    color: var(--text-mid);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* EDUCATION + INCUBATION */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 8px; bottom: 8px;
+    width: 1px;
+    background: linear-gradient(180deg, var(--accent), var(--accent2), transparent);
+  }
+
+  .timeline-item {
+    position: relative;
+    padding-bottom: 2.5rem;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -2.4rem;
+    top: 6px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 0 3px rgba(79,124,255,0.2);
+  }
+
+  .timeline-date {
+    font-size: 0.78rem;
+    color: var(--accent);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.4rem;
+  }
+
+  .timeline-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+
+  .timeline-org {
+    font-size: 0.85rem;
+    color: var(--text-mid);
+    margin-bottom: 0.75rem;
+  }
+
+  .timeline-desc {
+    font-size: 0.88rem;
+    color: var(--text-mid);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* CONTACT */
+  #contact {
+    text-align: center;
+    padding: 6rem 2rem;
+  }
+
+  .contact-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 4rem 3rem;
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact-card::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(ellipse 40% 40% at 50% 30%, rgba(79,124,255,0.08), transparent 60%);
+    pointer-events: none;
+  }
+
+  .contact-email {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-decoration: none;
+    display: block;
+    margin: 1.5rem 0;
+  }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 0.82rem;
+  }
+
+  footer span { color: var(--accent); }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .achievements-grid { grid-template-columns: 1fr; }
+    .subapps { grid-template-columns: 1fr; }
+    .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
+    .nav-links { display: none; }
+    .project-visual { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Joshua<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#achievements">Awards</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:joshuam3ndoza.123@gmail.com" class="btn-primary" style="padding:0.5rem 1.2rem;font-size:0.85rem;">Hire Me</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      Available for opportunities
+    </div>
+    <h1>
+      Reignel Joshua
+      <span class="line2">Mendoza</span>
+    </h1>
+    <p class="hero-desc">
+      Full-Stack Web Developer & API Developer based in Northern Mindanao, Philippines. I build real systems that solve real problems — from government certificate platforms to boarding house locators.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-primary">View My Work →</a>
+      <a href="https://github.com/LEGWIW" target="_blank" class="btn-outline">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        GitHub
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">2<span>+</span></div>
+        <div class="stat-label">Live Projects</div>
+      </div>
+      <div>
+        <div class="stat-num">3<span></span></div>
+        <div class="stat-label">Web Apps Built</div>
+      </div>
+      <div>
+        <div class="stat-num">2<span>x</span></div>
+        <div class="stat-label">Award Winner</div>
+      </div>
+      <div>
+        <div class="stat-num">400<span>+</span></div>
+        <div class="stat-label">Hours Incubation</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label reveal">Featured Work</div>
+  <h2 class="section-title reveal">Projects I've Built</h2>
+  <p class="section-desc reveal">Real systems, real users, real deployment — not just school demos.</p>
+
+  <div class="projects-grid">
+
+    <!-- CERTILINK - FEATURED -->
+    <div class="project-card featured reveal">
+      <div>
+        <div class="project-tag private">⚠ Private — Gov't System</div>
+        <div class="project-name">CertiLink</div>
+        <p class="project-desc">
+          A 3-app barangay certificate system serving Oroquieta City. Residents request and pay for official documents online. Secretaries manage and generate certificates. Admins control the entire platform. I was the sole full-stack + API developer out of a 4-person team.
+        </p>
+        <div class="subapps">
+          <div class="subapp">
+            <div class="subapp-title">🏘 Resident Portal</div>
+            <div class="subapp-desc">Request certificates, pay via PayMaya, download or send to secretary</div>
+          </div>
+          <div class="subapp">
+            <div class="subapp-title">📋 Secretary Dashboard</div>
+            <div class="subapp-desc">Receive requests, generate & manage official certificates</div>
+          </div>
+          <div class="subapp">
+            <div class="subapp-title">⚙ Admin Panel</div>
+            <div class="subapp-desc">Approve registered secretaries, manage the full platform</div>
+          </div>
+        </div>
+        <div class="project-tech" style="margin-top:1rem;">
+          <span class="tech-chip">PHP</span>
+          <span class="tech-chip">MySQL</span>
+          <span class="tech-chip">JavaScript</span>
+          <span class="tech-chip">Tailwind CSS</span>
+          <span class="tech-chip">PayMaya API</span>
+          <span class="tech-chip">Hostinger</span>
+        </div>
+        <div class="project-links">
+          <span style="color:var(--text-dim);font-size:0.82rem;">🔒 Private repository — government & payment data protected</span>
+        </div>
+      </div>
+      <div>
+        <div class="project-visual" style="height:100%;min-height:280px;font-size:5rem;">📄</div>
+      </div>
+    </div>
+
+    <!-- STAYFINDER -->
+    <div class="project-card reveal">
+      <div class="project-icon">🏠</div>
+      <div class="project-tag">Live · Capstone Project</div>
+      <div class="project-name">StayFinder</div>
+      <p class="project-desc">
+        A boarding house locator and booking platform. Tenants find available rooms near their school or any location. Owners list and manage their properties. Full booking and approval workflow with admin oversight.
+      </p>
+      <div class="project-tech">
+        <span class="tech-chip">PHP</span>
+        <span class="tech-chip">MySQL</span>
+        <span class="tech-chip">JavaScript</span>
+        <span class="tech-chip">Tailwind CSS</span>
+        <span class="tech-chip">Hostinger</span>
+      </div>
+      <div class="project-links">
+        <a href="https://stayfinder.online" target="_blank" class="project-link">Live Site →</a>
+      </div>
+    </div>
+
+    <!-- INCUBATION -->
+    <div class="project-card reveal">
+      <div class="project-icon">🚀</div>
+      <div class="project-tag">USTP Incubation 2025</div>
+      <div class="project-name">Startup Incubation</div>
+      <p class="project-desc">
+        Competitively selected through an e-commerce pitching competition. Completed 400+ hours of structured startup training covering MVP development, market sizing, IP strategy, and pitch development. Pitched to UNDP Youth Co:Lab mentors on Demo Day.
+      </p>
+      <div class="project-tech">
+        <span class="tech-chip">Lean Startup</span>
+        <span class="tech-chip">MVP Design</span>
+        <span class="tech-chip">Market Sizing</span>
+        <span class="tech-chip">Pitching</span>
+      </div>
+      <div class="project-links">
+        <span style="color:var(--text-dim);font-size:0.82rem;">June – August 2025 · USTP CDO</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" style="padding:3rem 2rem;margin:0 auto;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="section-label reveal">What I Know</div>
+    <h2 class="section-title reveal">Tech Stack</h2>
+    <div class="skills-grid reveal">
+      <div class="skill-group">
+        <div class="skill-group-title">Frontend</div>
+        <div class="skill-items">
+          <span class="skill-item">HTML5</span>
+          <span class="skill-item">CSS3</span>
+          <span class="skill-item">JavaScript</span>
+          <span class="skill-item">Tailwind CSS</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Backend</div>
+        <div class="skill-items">
+          <span class="skill-item">PHP</span>
+          <span class="skill-item">Java</span>
+          <span class="skill-item">MySQL</span>
+          <span class="skill-item">REST API</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Systems & Tools</div>
+        <div class="skill-items">
+          <span class="skill-item">Role-based Auth</span>
+          <span class="skill-item">PayMaya API</span>
+          <span class="skill-item">Hostinger</span>
+          <span class="skill-item">Git & GitHub</span>
+          <span class="skill-item">Domain Mgmt</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Soft Skills</div>
+        <div class="skill-items">
+          <span class="skill-item">Problem Solving</span>
+          <span class="skill-item">Teamwork</span>
+          <span class="skill-item">Communication</span>
+          <span class="skill-item">Troubleshooting</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Startup & Business</div>
+        <div class="skill-items">
+          <span class="skill-item">Lean Canvas</span>
+          <span class="skill-item">MVP Development</span>
+          <span class="skill-item">Pitch Decks</span>
+          <span class="skill-item">Market Sizing</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Productivity</div>
+        <div class="skill-items">
+          <span class="skill-item">MS Word</span>
+          <span class="skill-item">MS Excel</span>
+          <span class="skill-item">MS PowerPoint</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
+  <div class="section-label reveal">Recognition</div>
+  <h2 class="section-title reveal">Awards & Achievements</h2>
+  <div class="achievements-grid reveal">
+    <div class="achievement-card">
+      <div class="achievement-icon">🏆</div>
+      <div>
+        <div class="achievement-title">RSTW Pitching Competition Champion</div>
+        <div class="achievement-sub">1st Place · DICT – Oroquieta</div>
+        <div class="achievement-desc">Awarded 1st place at the Regional Science, Technology and Innovation Week competition organized by DICT, recognizing outstanding technical innovation and presentation skills.</div>
+      </div>
+    </div>
+    <div class="achievement-card">
+      <div class="achievement-icon">🎖</div>
+      <div>
+        <div class="achievement-title">Certificate of Recognition</div>
+        <div class="achievement-sub">USTP System-Wide Pitching Competition · April 23, 2025</div>
+        <div class="achievement-desc">Recognized for exceptional participation with CertiLink at USTP CDO — awarded for outstanding ingenuity embodying "Simplifying Processes, Amplifying Services."</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT / EDUCATION -->
+<section id="about">
+  <div class="section-label reveal">Background</div>
+  <h2 class="section-title reveal">Education & Journey</h2>
+  <div class="timeline reveal">
+    <div class="timeline-item">
+      <div class="timeline-date">June – August 2025</div>
+      <div class="timeline-title">Startup Incubation Participant</div>
+      <div class="timeline-org">USTP Midyear Incubation Program · Competitively Selected</div>
+      <div class="timeline-desc">Selected through an e-commerce pitching competition. Completed 400+ hours of startup training. Pitched CertiLink on Demo Day to UNDP Youth Co:Lab and industry mentors.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2022 – 2026</div>
+      <div class="timeline-title">BS Information Technology</div>
+      <div class="timeline-org">USTP Panaon — University of Science and Technology of the Philippines</div>
+      <div class="timeline-desc">Specializing in web development and software engineering. Built and deployed production systems while still in school, including a government barangay certificate platform and a live boarding house locator.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="max-width:1100px;">
+  <div class="contact-card reveal">
+    <div class="section-label" style="justify-content:center;display:flex;">Get In Touch</div>
+    <h2 class="section-title" style="font-size:2rem;">Let's work together</h2>
+    <p style="color:var(--text-mid);font-size:0.95rem;margin-top:0.5rem;font-weight:300;">
+      Open to job opportunities, freelance projects, and collaborations.
+    </p>
+    <a href="mailto:joshuam3ndoza.123@gmail.com" class="contact-email">joshuam3ndoza.123@gmail.com</a>
+    <div class="contact-links">
+      <a href="https://github.com/LEGWIW" target="_blank" class="btn-outline" style="font-size:0.85rem;">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        GitHub
+      </a>
+      <a href="https://stayfinder.online" target="_blank" class="btn-outline" style="font-size:0.85rem;">🌐 stayfinder.online</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Built by <span>Joshua Mendoza</span> · Northern Mindanao, Philippines · 2025</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Smooth nav highlight
+  const sections = document.querySelectorAll('section[id], div[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      if (window.scrollY >= section.offsetTop - 200) current = section.getAttribute('id');
+    });
+    navLinks.forEach(link => {
+      link.style.color = link.getAttribute('href') === '#' + current ? 'var(--text)' : '';
+    });
+  });
+</script>
+</body>
+</html>
