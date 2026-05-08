@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Joshua Mendoza — Full-Stack Developer</title>
+<title>Reignel Nzarene Joshua A. Abadia — Full-Stack Developer</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -698,6 +698,35 @@
     .nav-links { display: none; }
     .project-visual { display: none; }
   }
+
+  .hero-photo {
+    position: absolute;
+    right: 5%; top: 50%;
+    transform: translateY(-50%);
+    width: 280px; height: 340px;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(79,124,255,0.15);
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .hero-photo img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    filter: grayscale(15%);
+    transition: filter 0.3s;
+  }
+  .hero-photo:hover img { filter: grayscale(0%); }
+  .hero-photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 60%, rgba(10,10,15,0.4));
+    pointer-events: none;
+  }
+  @media (max-width: 900px) { .hero-photo { display: none; } }
+
 </style>
 </head>
 <body>
@@ -719,13 +748,15 @@
 <div class="hero">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
+  <div class="hero-photo"><img src="data:image/jpeg;base64,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" alt="Joshua" /></div>
+  
   <div class="hero-content">
     <div class="hero-badge">
       <span class="badge-dot"></span>
       Available for opportunities
     </div>
     <h1>
-      Reignel Joshua
+      Reignel Nzarene Joshua A. Abadia
       <span class="line2">Mendoza</span>
     </h1>
     <p class="hero-desc">
@@ -976,7 +1007,7 @@
 </section>
 
 <footer>
-  <p>Built by <span>Joshua Mendoza</span> · Northern Mindanao, Philippines · 2025</p>
+  <p>Built by <span>Reignel Nzarene Joshua A. Abadia</span> · Northern Mindanao, Philippines · 2025</p>
 </footer>
 
 <script>
